@@ -1,0 +1,79 @@
+---
+title: Button
+description: Button コンポーネントの仕様と実装
+---
+
+## Button
+
+ユーザーのアクションを受け付ける基本的なインタラクティブ要素です。
+
+### Variants
+
+- **Primary**: 主要なアクション用
+- **Secondary**: 補助的なアクション用
+- **Ghost**: 控えめなアクション用
+
+### Sizes
+
+- **sm**: コンパクトな UI 向け（高さ 32px）
+- **md**: 標準サイズ（高さ 40px）
+- **lg**: 強調したい場合（高さ 48px）
+
+### 使用例
+
+```tsx
+import { Button } from "@playbook/ui";
+
+// Primary（デフォルト）
+<Button>送信</Button>
+
+// Secondary + Small
+<Button variant="secondary" size="sm">キャンセル</Button>
+
+// Ghost
+<Button variant="ghost">詳細を見る</Button>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `"primary" \| "secondary" \| "ghost"` | `"primary"` | ボタンの見た目 |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | ボタンのサイズ |
+| `disabled` | `boolean` | `false` | 無効状態 |
+| `children` | `ReactNode` | — | ボタンのラベル |
+
+### アクセシビリティ
+
+- ネイティブの `<button>` 要素を使用
+- `disabled` 属性でスクリーンリーダーに状態を伝達
+- `:focus-visible` でキーボードナビゲーション時のフォーカスリングを表示
+
+### 実装のポイント
+
+Vanilla Extract の `recipe` を使ってバリアントを管理しています：
+
+```typescript
+// Button.css.ts
+import { recipe } from "@vanilla-extract/recipes";
+
+export const button = recipe({
+  base: { /* 共通スタイル */ },
+  variants: {
+    variant: {
+      primary: { /* ... */ },
+      secondary: { /* ... */ },
+      ghost: { /* ... */ },
+    },
+    size: {
+      sm: { /* ... */ },
+      md: { /* ... */ },
+      lg: { /* ... */ },
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+});
+```

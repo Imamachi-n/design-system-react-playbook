@@ -1,0 +1,49 @@
+---
+title: Design Tokens
+description: デザイントークンの概念と Vanilla Extract での実装
+---
+
+## デザイントークンとは
+
+デザイントークンは、デザインシステムにおける最小単位の設計値です。色、フォントサイズ、スペーシングなど、UI を構成する基本的な値を一元管理します。
+
+### なぜトークンが必要か
+
+- **一貫性**: アプリケーション全体でデザインの統一を保証
+- **メンテナンス性**: 値の変更が一箇所で完結
+- **コミュニケーション**: デザイナーとエンジニア間の共通言語
+
+### Vanilla Extract でのトークン実装
+
+このプロジェクトでは Vanilla Extract の `createGlobalTheme` を使用してトークンを CSS カスタムプロパティとして定義しています。
+
+```typescript
+// tokens/colors.css.ts
+import { createGlobalTheme } from "@vanilla-extract/css";
+
+export const colors = createGlobalTheme(":root", {
+  primary: {
+    500: "#3b82f6",
+    600: "#2563eb",
+    700: "#1d4ed8",
+  },
+});
+```
+
+これにより以下の CSS カスタムプロパティが自動生成されます：
+
+```css
+:root {
+  --colors-primary-500: #3b82f6;
+  --colors-primary-600: #2563eb;
+  --colors-primary-700: #1d4ed8;
+}
+```
+
+### トークンのカテゴリ
+
+| カテゴリ | 例 | ファイル |
+|---|---|---|
+| Colors | Primary, Neutral, Semantic | `tokens/colors.css.ts` |
+| Spacing | 4px, 8px, 16px... | `tokens/spacing.css.ts` |
+| Typography | Font family, size, weight | `tokens/typography.css.ts` |

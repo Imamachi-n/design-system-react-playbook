@@ -1,0 +1,48 @@
+---
+title: Component API Design
+description: 使いやすく拡張性のあるコンポーネント API を設計するためのパターン
+---
+
+## コンポーネント API 設計の原則
+
+### 1. Props の型安全性
+
+TypeScript のユニオン型でバリアントを制約する：
+
+```typescript
+type ButtonVariant = "primary" | "secondary" | "ghost";
+
+interface ButtonProps {
+  variant?: ButtonVariant; // string ではなく具体的な型
+}
+```
+
+### 2. HTML 属性の透過
+
+ネイティブ HTML 要素の属性を透過させることで、コンポーネントの使い勝手を向上させる：
+
+```typescript
+interface ButtonProps extends ComponentPropsWithRef<"button"> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+}
+```
+
+### 3. デフォルト値の活用
+
+最も一般的なユースケースをデフォルトにすることで、利用側のコード量を減らす：
+
+```typescript
+function Button({
+  variant = "primary",  // 最も使われるバリアントをデフォルトに
+  size = "md",
+  ...props
+}: ButtonProps) { ... }
+```
+
+### 4. スタイルバリアントの分離
+
+Vanilla Extract の `recipe` パターンにより、スタイルロジックをコンポーネントロジックから分離：
+
+- `Button.tsx` → コンポーネントの振る舞い
+- `Button.css.ts` → スタイルのバリアント定義

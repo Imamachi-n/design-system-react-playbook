@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/ui" },
+    { "path": "packages/docs" },
+    { "path": "packages/storybook" }
+  ]
+}

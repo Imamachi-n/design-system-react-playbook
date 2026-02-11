@@ -1,0 +1,25 @@
+{
+  "name": "design-system-react-playbook",
+  "private": true,
+  "packageManager": "pnpm@10.8.0",
+  "scripts": {
+    "dev": "pnpm --filter @playbook/storybook dev",
+    "dev:docs": "pnpm --filter @playbook/docs dev",
+    "build": "pnpm -r build",
+    "build:ui": "pnpm --filter @playbook/ui build",
+    "build:docs": "pnpm --filter @playbook/docs build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "pnpm --filter @playbook/ui test",
+    "clean": "pnpm -r exec rm -rf dist node_modules .astro"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
+}

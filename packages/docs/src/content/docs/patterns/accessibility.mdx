@@ -1,0 +1,54 @@
+---
+title: Accessibility
+description: アクセシブルなコンポーネントを作るための考慮事項
+---
+
+## アクセシビリティの基本原則
+
+### セマンティック HTML
+
+正しい HTML 要素を使うことが、アクセシビリティの最も重要な第一歩です：
+
+```tsx
+// Good: ネイティブ button 要素を使用
+<button onClick={handleClick}>送信</button>
+
+// Bad: div を button として使用
+<div onClick={handleClick} role="button">送信</div>
+```
+
+### キーボードナビゲーション
+
+すべてのインタラクティブ要素はキーボードで操作できる必要があります：
+
+- **Tab**: フォーカスの移動
+- **Enter / Space**: ボタンのアクティベーション
+- **Escape**: モーダル / ポップオーバーの閉じ
+
+### フォーカス管理
+
+`:focus-visible` を使って、キーボードユーザーにのみフォーカスリングを表示：
+
+```css
+button:focus-visible {
+  outline: 2px solid var(--colors-primary-500);
+  outline-offset: 2px;
+}
+```
+
+### ARIA 属性
+
+ネイティブ HTML で表現できない状態を補完：
+
+```tsx
+<button aria-disabled={isLoading} aria-busy={isLoading}>
+  {isLoading ? "送信中..." : "送信"}
+</button>
+```
+
+### カラーコントラスト
+
+WCAG 2.1 AA 基準のコントラスト比を確保：
+
+- 通常テキスト: **4.5:1** 以上
+- 大きなテキスト（18px bold / 24px）: **3:1** 以上

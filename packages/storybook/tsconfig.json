@@ -1,0 +1,4 @@
+{
+  "extends": "@playbook/tsconfig/react-library.json",
+  "include": [".storybook/**/*"]
+}
