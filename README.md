@@ -42,18 +42,27 @@
 | `packages/docs` | `@playbook/docs` | Astro Starlight ドキュメントサイト。デザインシステムの学習コンテンツを MDX で管理 |
 | `packages/tsconfig` | `@playbook/tsconfig` | 共有 TypeScript 設定。各パッケージから `extends` で参照 |
 
-## コマンド
+## セットアップ
 
 ```bash
-# 依存パッケージのインストール
 pnpm install
+```
 
+## 使用方法
+
+### 開発サーバー
+
+```bash
 # Storybook の起動（port 6006）
 pnpm dev
 
 # ドキュメントサイトの起動
 pnpm dev:docs
+```
 
+### ビルド
+
+```bash
 # 全パッケージのビルド
 pnpm build
 
@@ -62,7 +71,11 @@ pnpm build:ui
 
 # ドキュメントサイトのみビルド
 pnpm build:docs
+```
 
+### リント・テスト
+
+```bash
 # Biome によるリント
 pnpm lint
 
