@@ -9,7 +9,6 @@
 | ツール | 説明 |
 | --- | --- |
 | [pnpm](https://pnpm.io/) | パッケージマネージャー（モノレポ対応・catalog によるバージョン統一） |
-| [TypeScript](https://www.typescriptlang.org/) | 型安全なコンポーネント API |
 | [Biome](https://biomejs.dev/) | リンター・フォーマッター |
 | [Vite](https://vite.dev/) | コンポーネントライブラリのビルド（Library Mode） |
 | [Vanilla Extract](https://vanilla-extract.style/) | TypeScript による型安全なゼロランタイム CSS |
