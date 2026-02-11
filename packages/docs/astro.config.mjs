@@ -3,6 +3,8 @@ import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
+  site: "https://Imamachi-n.github.io",
+  base: "/design-system-react-playbook",
   integrations: [
     starlight({
       title: "Design System React Playbook",
