@@ -2,18 +2,20 @@
 
 デザインシステムの学習と、React コンポーネントへの落とし込み方をまとめたプレイブックプロジェクト。
 
-## 技術スタック
+## 開発環境
 
-| カテゴリ | 技術 |
-|---|---|
-| パッケージマネージャ | pnpm（workspaces + catalog） |
-| 言語 | TypeScript |
-| リンター / フォーマッター | Biome |
-| コンポーネントビルド | Vite（Library Mode） |
-| CSS | Vanilla Extract |
-| コンポーネント開発 | Storybook |
-| ドキュメント | Astro Starlight |
-| テスト | Vitest + React Testing Library |
+本プロジェクトでは以下のツールを使用しています。
+
+| ツール | 説明 |
+| --- | --- |
+| [pnpm](https://pnpm.io/) | パッケージマネージャー（モノレポ対応・catalog によるバージョン統一） |
+| [TypeScript](https://www.typescriptlang.org/) | 型安全なコンポーネント API |
+| [Biome](https://biomejs.dev/) | リンター・フォーマッター |
+| [Vite](https://vite.dev/) | コンポーネントライブラリのビルド（Library Mode） |
+| [Vanilla Extract](https://vanilla-extract.style/) | TypeScript による型安全なゼロランタイム CSS |
+| [Storybook](https://storybook.js.org/) | コンポーネント開発・ビジュアルドキュメント |
+| [Astro Starlight](https://starlight.astro.build/) | ドキュメントサイト |
+| [Vitest](https://vitest.dev/) | テストフレームワーク（React Testing Library と併用） |
 
 ## ディレクトリ構成
 
