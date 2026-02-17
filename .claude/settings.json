@@ -1,0 +1,11 @@
+{
+  "plansDirectory": "./docs/plans",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm info:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(pnpm --filter @playbook/ui build:*)"
+    ]
+  }
+}
