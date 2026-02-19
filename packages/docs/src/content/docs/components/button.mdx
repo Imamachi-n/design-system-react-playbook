@@ -5,75 +5,80 @@ description: Button コンポーネントの仕様と実装
 
 ## Button
 
-ユーザーのアクションを受け付ける基本的なインタラクティブ要素です。
+ユーザーのアクションを受け付ける基本的なインタラクティブ要素です。MUI の Button コンポーネントをベースとしています。
 
 ### Variants
 
-- **Primary**: 主要なアクション用
-- **Secondary**: 補助的なアクション用
-- **Ghost**: 控えめなアクション用
+- **Contained**: 主要なアクション用（塗りつぶし）
+- **Outlined**: 補助的なアクション用（枠線）
+- **Text**: 控えめなアクション用（テキストのみ）
 
 ### Sizes
 
-- **sm**: コンパクトな UI 向け（高さ 32px）
-- **md**: 標準サイズ（高さ 40px）
-- **lg**: 強調したい場合（高さ 48px）
+- **small**: コンパクトな UI 向け（高さ 32px）
+- **medium**: 標準サイズ（高さ 40px）
+- **large**: 強調したい場合（高さ 48px）
 
 ### 使用例
 
 ```tsx
-import { Button } from "@playbook/ui";
+import { Button, PlaybookProvider } from "@playbook/ui";
 
-// Primary（デフォルト）
-<Button>送信</Button>
+// PlaybookProvider でアプリケーションをラップ
+<PlaybookProvider>
+  {/* Contained（デフォルト） */}
+  <Button variant="contained">送信</Button>
 
-// Secondary + Small
-<Button variant="secondary" size="sm">キャンセル</Button>
+  {/* Outlined + Small */}
+  <Button variant="outlined" size="small">キャンセル</Button>
 
-// Ghost
-<Button variant="ghost">詳細を見る</Button>
+  {/* Text */}
+  <Button variant="text">詳細を見る</Button>
+</PlaybookProvider>
 ```
 
 ### Props
 
+MUI Button の全 props をサポートしています。主要なものを以下に示します：
+
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `variant` | `"primary" \| "secondary" \| "ghost"` | `"primary"` | ボタンの見た目 |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | ボタンのサイズ |
+| `variant` | `"contained" \| "outlined" \| "text"` | `"text"` | ボタンの見た目 |
+| `size` | `"small" \| "medium" \| "large"` | `"medium"` | ボタンのサイズ |
+| `color` | `"primary" \| "secondary" \| "error" \| ...` | `"primary"` | ボタンの色 |
 | `disabled` | `boolean` | `false` | 無効状態 |
 | `children` | `ReactNode` | — | ボタンのラベル |
 
 ### アクセシビリティ
 
-- ネイティブの `<button>` 要素を使用
+- MUI Button はネイティブの `<button>` 要素をレンダリング
 - `disabled` 属性でスクリーンリーダーに状態を伝達
-- `:focus-visible` でキーボードナビゲーション時のフォーカスリングを表示
+- フォーカスリング（`:focus-visible`）が自動的に適用
+- キーボードナビゲーション（Enter / Space）をサポート
 
 ### 実装のポイント
 
-Vanilla Extract の `recipe` を使ってバリアントを管理しています：
+MUI Button を re-export し、テーマの `styleOverrides` でカスタマイズしています：
 
 ```typescript
-// Button.css.ts
-import { recipe } from "@vanilla-extract/recipes";
+// Button.tsx
+export { default as Button } from "@mui/material/Button";
+export type { ButtonProps } from "@mui/material/Button";
+```
 
-export const button = recipe({
-  base: { /* 共通スタイル */ },
-  variants: {
-    variant: {
-      primary: { /* ... */ },
-      secondary: { /* ... */ },
-      ghost: { /* ... */ },
+```typescript
+// tokens/theme.ts
+export const theme = createTheme({
+  components: {
+    MuiButton: {
+      defaultProps: { disableElevation: true },
+      styleOverrides: {
+        root: { textTransform: "none", fontWeight: 500 },
+        sizeSmall: { height: "32px" },
+        sizeMedium: { height: "40px" },
+        sizeLarge: { height: "48px" },
+      },
     },
-    size: {
-      sm: { /* ... */ },
-      md: { /* ... */ },
-      lg: { /* ... */ },
-    },
-  },
-  defaultVariants: {
-    variant: "primary",
-    size: "md",
   },
 });
 ```

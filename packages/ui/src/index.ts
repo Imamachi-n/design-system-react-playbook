@@ -1,7 +1,10 @@
 // Components
 
-export type { ButtonProps, ButtonSize, ButtonVariant } from "./components/Button";
+export type { ButtonProps } from "./components/Button";
 export { Button } from "./components/Button";
+export type { PlaybookProviderProps } from "./providers";
+// Provider
+export { PlaybookProvider } from "./providers";
 
-// Tokens
-export { colors, spacing, typography } from "./tokens";
+// Theme
+export { theme } from "./tokens";

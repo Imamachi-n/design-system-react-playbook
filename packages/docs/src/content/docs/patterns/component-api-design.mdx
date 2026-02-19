@@ -5,44 +5,62 @@ description: 使いやすく拡張性のあるコンポーネント API を設�
 
 ## コンポーネント API 設計の原則
 
-### 1. Props の型安全性
+### 1. MUI ネイティブ API の活用
 
-TypeScript のユニオン型でバリアントを制約する：
+MUI コンポーネントの props をそのまま公開し、Figma テンプレートとの 1:1 対応を維持する：
 
 ```typescript
-type ButtonVariant = "primary" | "secondary" | "ghost";
+// MUI Button をそのまま re-export
+export { default as Button } from "@mui/material/Button";
+export type { ButtonProps } from "@mui/material/Button";
+```
 
-interface ButtonProps {
-  variant?: ButtonVariant; // string ではなく具体的な型
+### 2. テーマによるカスタマイズ
+
+コンポーネントの見た目はテーマの `styleOverrides` に集約し、コンポーネントファイルをシンプルに保つ：
+
+```typescript
+// tokens/theme.ts
+export const theme = createTheme({
+  components: {
+    MuiButton: {
+      defaultProps: { disableElevation: true },
+      styleOverrides: {
+        root: { textTransform: "none" },
+      },
+    },
+  },
+});
+```
+
+### 3. ThemeProvider の提供
+
+`PlaybookProvider` で ThemeProvider + CssBaseline をバンドルし、利用側のセットアップを簡素化：
+
+```typescript
+import { PlaybookProvider } from "@playbook/ui";
+
+function App() {
+  return (
+    <PlaybookProvider>
+      <YourApp />
+    </PlaybookProvider>
+  );
 }
 ```
 
-### 2. HTML 属性の透過
+### 4. tss-react によるカスタムスタイル
 
-ネイティブ HTML 要素の属性を透過させることで、コンポーネントの使い勝手を向上させる：
-
-```typescript
-interface ButtonProps extends ComponentPropsWithRef<"button"> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-}
-```
-
-### 3. デフォルト値の活用
-
-最も一般的なユースケースをデフォルトにすることで、利用側のコード量を減らす：
+MUI にないカスタムコンポーネントには tss-react を使い、テーマトークンを参照したスタイルを定義：
 
 ```typescript
-function Button({
-  variant = "primary",  // 最も使われるバリアントをデフォルトに
-  size = "md",
-  ...props
-}: ButtonProps) { ... }
+import { tss } from "tss-react/mui";
+
+const useStyles = tss.create(({ theme }) => ({
+  root: {
+    padding: theme.spacing(2),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
 ```
-
-### 4. スタイルバリアントの分離
-
-Vanilla Extract の `recipe` パターンにより、スタイルロジックをコンポーネントロジックから分離：
-
-- `Button.tsx` → コンポーネントの振る舞い
-- `Button.css.ts` → スタイルのバリアント定義

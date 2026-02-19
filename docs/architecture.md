@@ -3,6 +3,7 @@
 ## Context
 
 デザインシステムの学習と、React コンポーネントへの落とし込み方をまとめるプレイブックプロジェクト。
+MUI の Figma テンプレートをデザインのソースオブトゥルースとし、MUI + tss-react で実装する。
 
 ## 技術スタック
 
@@ -12,7 +13,8 @@
 | 言語 | TypeScript | 型安全なコンポーネント API |
 | リンター/フォーマッター | Biome | ESLint + Prettier を 1 ツールに統合・高速 |
 | コンポーネントビルド | Vite (Library Mode) | Rollup ベース・柔軟な設定・Storybook と同じエコシステム |
-| CSS | Vanilla Extract | TypeScript で型安全な CSS・ゼロランタイム・recipe でバリアント管理 |
+| UI コンポーネント | MUI (Material UI) | Figma テンプレートと 1:1 対応・豊富なコンポーネント・アクセシビリティ内蔵 |
+| CSS | tss-react + MUI テーマ | MUI テーマによるトークン一元管理・tss-react でカスタムスタイル |
 | Storybook | Storybook 10 + @storybook/react-vite | コンポーネント開発・ビジュアルドキュメント・a11y チェック |
 | ドキュメント | Astro Starlight | ドキュメント特化・高速・React コンポーネント埋め込み可能 |
 | テスト | Vitest + React Testing Library | Vite ネイティブ・高速・Jest 互換 API |
@@ -28,14 +30,15 @@ packages/
 ```
 
 ### packages/ui
-- コンポーネント + スタイル + ストーリー + テストをコロケーション
+- コンポーネント + ストーリー + テストをコロケーション
 - Vite Library Mode で ESM + 型定義を出力
-- デザイントークンは `createGlobalTheme` で CSS カスタムプロパティとして定義
-- `@vanilla-extract/recipes` の `recipe` でバリアントを管理
+- デザイントークンは MUI の `createTheme` でテーマオブジェクトとして定義
+- MUI コンポーネントを re-export し、テーマの `styleOverrides` でカスタマイズ
+- `PlaybookProvider` で ThemeProvider + CssBaseline をバンドル提供
 
 ### packages/storybook
 - `packages/ui` 内の `*.stories.tsx` を参照
-- `@vanilla-extract/vite-plugin` で Vanilla Extract をサポート
+- `@storybook/addon-themes` で ThemeProvider デコレータを自動適用
 - `@storybook/addon-a11y` でアクセシビリティチェック
 
 ### packages/docs
@@ -54,12 +57,13 @@ packages/
 Storybook は別ワークスペース（`packages/storybook`）で、glob で参照。
 → コンポーネント開発時に関連ファイルが一箇所にまとまり、Storybook の設定依存は分離。
 
-### CSS Modules ではなく Vanilla Extract
-型安全な CSS 定義と `recipe` によるバリアント管理が、デザインシステムの学習テーマに合致。
-CSS カスタムプロパティ経由のトークン管理も Vanilla Extract の強み。
+### MUI + tss-react
+MUI の Figma テンプレートをデザインのソースオブトゥルースとする方針に合わせ、MUI コンポーネントをベースに採用。
+MUI 標準コンポーネントはテーマの `styleOverrides` でカスタマイズし、MUI にないカスタムコンポーネントは tss-react で実装する。
+Figma バリアント名と MUI props が 1:1 対応するため、Figma → コード生成が機械的に行える。
 
 ### pnpm catalog
-`react`, `typescript` 等の共通依存バージョンを `pnpm-workspace.yaml` の `catalog` で一元管理。
+`react`, `typescript`, `@mui/material` 等の共通依存バージョンを `pnpm-workspace.yaml` の `catalog` で一元管理。
 各 `package.json` では `"react": "catalog:"` と記述するだけ。
 
 ## npm scripts

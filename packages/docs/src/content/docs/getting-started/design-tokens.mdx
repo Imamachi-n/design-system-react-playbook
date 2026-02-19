@@ -1,6 +1,6 @@
 ---
 title: Design Tokens
-description: デザイントークンの概念と Vanilla Extract での実装
+description: デザイントークンの概念と MUI テーマでの実装
 ---
 
 ## デザイントークンとは
@@ -13,37 +13,41 @@ description: デザイントークンの概念と Vanilla Extract での実装
 - **メンテナンス性**: 値の変更が一箇所で完結
 - **コミュニケーション**: デザイナーとエンジニア間の共通言語
 
-### Vanilla Extract でのトークン実装
+### MUI テーマでのトークン実装
 
-このプロジェクトでは Vanilla Extract の `createGlobalTheme` を使用してトークンを CSS カスタムプロパティとして定義しています。
+このプロジェクトでは MUI の `createTheme` を使用してトークンをテーマオブジェクトとして定義しています。
 
 ```typescript
-// tokens/colors.css.ts
-import { createGlobalTheme } from "@vanilla-extract/css";
+// tokens/theme.ts
+import { createTheme } from "@mui/material/styles";
 
-export const colors = createGlobalTheme(":root", {
-  primary: {
-    500: "#3b82f6",
-    600: "#2563eb",
-    700: "#1d4ed8",
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#2563eb",
+      light: "#60a5fa",
+      dark: "#1e40af",
+    },
+    success: { main: "#16a34a" },
+    warning: { main: "#d97706" },
+    error: { main: "#dc2626" },
   },
+  typography: {
+    fontFamily: "'Inter', sans-serif",
+  },
+  spacing: 4, // base 4px
+  shape: { borderRadius: 6 },
 });
 ```
 
-これにより以下の CSS カスタムプロパティが自動生成されます：
-
-```css
-:root {
-  --colors-primary-500: #3b82f6;
-  --colors-primary-600: #2563eb;
-  --colors-primary-700: #1d4ed8;
-}
-```
+MUI テーマオブジェクトは `ThemeProvider` 経由で全コンポーネントに自動的に提供されます。
 
 ### トークンのカテゴリ
 
-| カテゴリ | 例 | ファイル |
+| カテゴリ | MUI テーマフィールド | 例 |
 |---|---|---|
-| Colors | Primary, Neutral, Semantic | `tokens/colors.css.ts` |
-| Spacing | 4px, 8px, 16px... | `tokens/spacing.css.ts` |
-| Typography | Font family, size, weight | `tokens/typography.css.ts` |
+| Colors | `palette` | primary, grey, success, warning, error |
+| Spacing | `spacing` | 4px ベース (spacing(1)=4px, spacing(2)=8px...) |
+| Typography | `typography` | fontFamily, fontWeight |
+| Shape | `shape` | borderRadius |
+| Component Overrides | `components` | MuiButton の styleOverrides |

@@ -7,11 +7,15 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "ghost"],
+      options: ["contained", "outlined", "text"],
     },
     size: {
       control: "select",
-      options: ["sm", "md", "lg"],
+      options: ["small", "medium", "large"],
+    },
+    color: {
+      control: "select",
+      options: ["primary", "secondary", "error", "warning", "info", "success"],
     },
     disabled: {
       control: "boolean",
@@ -23,38 +27,38 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Contained: Story = {
   args: {
     children: "Button",
-    variant: "primary",
+    variant: "contained",
   },
 };
 
-export const Secondary: Story = {
+export const Outlined: Story = {
   args: {
     children: "Button",
-    variant: "secondary",
+    variant: "outlined",
   },
 };
 
-export const Ghost: Story = {
+export const Text: Story = {
   args: {
     children: "Button",
-    variant: "ghost",
+    variant: "text",
   },
 };
 
 export const Small: Story = {
   args: {
     children: "Small",
-    size: "sm",
+    size: "small",
   },
 };
 
 export const Large: Story = {
   args: {
     children: "Large",
-    size: "lg",
+    size: "large",
   },
 };
 

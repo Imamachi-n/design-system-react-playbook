@@ -11,12 +11,15 @@
     "@playbook/ui": "workspace:*"
   },
   "devDependencies": {
+    "@emotion/react": "catalog:",
+    "@emotion/styled": "catalog:",
+    "@mui/material": "catalog:",
     "@playbook/tsconfig": "workspace:*",
     "@storybook/addon-a11y": "^10.2.0",
+    "@storybook/addon-themes": "^10.2.0",
     "@storybook/react-vite": "^10.2.0",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vanilla-extract/vite-plugin": "^5.1.4",
     "react": "catalog:",
     "react-dom": "catalog:",
     "storybook": "^10.2.0",
